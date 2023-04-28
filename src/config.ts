@@ -66,11 +66,11 @@ export const config: IConfig = {
 	// Prefix
 	prefixEnabled: getEnvBooleanWithDefault("PREFIX_ENABLED", true), // Default: true
 	prefixSkippedForMe: getEnvBooleanWithDefault("PREFIX_SKIPPED_FOR_ME", true), // Default: true
-	gptPrefix: process.env.GPT_PREFIX || "!gpt", // Default: !gpt
-	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
-	resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
-	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
-	langChainPrefix: process.env.LANGCHAIN_PREFIX || "!lang", // Default: !lang
+	gptPrefix: process.env.GPT_PREFIX || "!x_gpt", // Default: !gpt
+	dallePrefix: process.env.DALLE_PREFIX || "!x_dalle", // Default: !dalle
+	resetPrefix: process.env.RESET_PREFIX || "!x_reset", // Default: !reset
+	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!x_config", // Default: !config
+	langChainPrefix: process.env.LANGCHAIN_PREFIX || "!x_lang", // Default: !lang
 
 	// Groupchats
 	groupchatsEnabled: getEnvBooleanWithDefault("GROUPCHATS_ENABLED", false), // Default: false

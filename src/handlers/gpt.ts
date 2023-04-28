@@ -51,7 +51,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 			// Set conversation
 			conversations[message.from] = conv.id;
 
-			cli.print(`[GPT] New conversation for ${message.from} (ID: ${conv.id})`);
+			cli.print(`[GPT] New conversation for ${message.from} (ID: ${conv.id}) | ${prompt}`);
 
 			// Pre prompt
 			if (config.prePrompt != null && config.prePrompt.trim() != "") {
