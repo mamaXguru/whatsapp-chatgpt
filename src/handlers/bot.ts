@@ -22,7 +22,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 
 		const end = Date.now() - start;
 		// const response = `[GPT] Msg recieved ${message.from}: ${prompt}`
-		const response = await axios.post('http://0.0.0.0:8000/api/chat/chat', {
+		const response = await axios.post('https://api.mamaguru.co/api/chat/chat', {
 			"message": prompt,
 			"user_id": message.from
 		})
