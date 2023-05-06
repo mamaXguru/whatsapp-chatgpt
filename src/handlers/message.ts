@@ -37,9 +37,10 @@ async function handleIncomingMessage(message: Message) {
 	// Ignore groupchats if disabled
   if ((await message.getChat()).isGroup && !config.groupchatsEnabled) return;
 
-  const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
 
-  if (!selfNotedMessage) {
+  const selfNotedMessage = message.fromMe;
+
+  if (selfNotedMessage) {
 	  cli.print(`Ignoring message from ${message.from} because it is self message.`);
 	  return;
   }
