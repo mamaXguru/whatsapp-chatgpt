@@ -9,6 +9,9 @@ import { blobFromSync, File } from "fetch-blob/from.js";
 import config from "../config";
 import { getConfig } from "../handlers/ai-config";
 
+// CLI
+import * as cli from "../cli/ui";
+
 export let chatgpt: ChatGPT;
 
 // OpenAI Client (DALL-E)
@@ -40,10 +43,14 @@ export async function transcribeOpenAI(audioBuffer: Buffer): Promise<{ text: str
 	const oggPath = path.join(tempdir, randomUUID() + ".ogg");
 	const wavFilename = randomUUID() + ".wav";
 	const wavPath = path.join(tempdir, wavFilename);
+	cli.print(`Writing file  ${tempdir} ${wavFilename}`);
+
 	fs.writeFileSync(oggPath, audioBuffer);
+	cli.print(`Wrote file  ${tempdir} ${wavFilename}`);
 	try {
 		await convertOggToWav(oggPath, wavPath);
 	} catch (e) {
+		cli.print(`error  ${e}`);
 		fs.unlinkSync(oggPath);
 		return {
 			text: "",
@@ -52,6 +59,7 @@ export async function transcribeOpenAI(audioBuffer: Buffer): Promise<{ text: str
 	}
 
 	// FormData
+	cli.print(`Form data starts`);
 	const formData = new FormData();
 	formData.append("file", new File([blobFromSync(wavPath)], wavFilename, { type: "audio/wav" }));
 	formData.append("model", "whisper-1");
@@ -72,6 +80,7 @@ export async function transcribeOpenAI(audioBuffer: Buffer): Promise<{ text: str
 
 	let response;
 	try {
+		cli.print(`Requesting ${url}`);
 		response = await fetch(url, options);
 	} catch (e) {
 		console.error(e);
