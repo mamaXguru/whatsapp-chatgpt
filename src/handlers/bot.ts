@@ -22,6 +22,11 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 
 		const end = Date.now() - start;
 		// const response = `[GPT] Msg recieved ${message.from}: ${prompt}`
+		// const response = await axios.post('http://0.0.0.0:8000/api/chat/chat', {
+		// 	"message": prompt,
+		// 	"user_id": message.from
+		// })
+
 		const response = await axios.post('https://api.mamaguru.co/api/chat/chat', {
 			"message": prompt,
 			"user_id": message.from
@@ -35,6 +40,39 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
 	}
 };
+
+
+const handleVoiceMessageGPT = async (message: Message, prompt: string) => {
+	try {
+		// Get last conversation
+		const lastConversationId = conversations[message.from];
+
+		cli.print(`[GPT] Received prompt from ${message.from}: ${prompt}`);
+
+
+		const start = Date.now();
+
+		const end = Date.now() - start;
+		// const response = `[GPT] Msg recieved ${message.from}: ${prompt}`
+		// const response = await axios.post('http://0.0.0.0:8000/api/journal/chat', {
+		// 	"message": prompt,
+		// 	"user_id": message.from
+		// })
+
+		const response = await axios.post('https://api.mamaguru.co/api/journal/chat', {
+			"message": prompt,
+			"user_id": message.from
+		})
+
+		cli.print(`[GPT] Answer to ${message.from}: ${response.data.msg}  | OpenAI request took ${end}ms)`);
+
+		message.reply(response.data.msg);
+	} catch (error: any) {
+		console.error("An error occured", error);
+		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
+	}
+};
+
 
 const handleDeleteConversation = async (message: Message) => {
 	// Delete conversation
