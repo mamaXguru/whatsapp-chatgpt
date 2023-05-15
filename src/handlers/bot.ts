@@ -6,35 +6,29 @@ import { Message, MessageMedia } from "whatsapp-web.js";
 import * as cli from "../cli/ui";
 import config from "../config";
 import axios from "axios";
+import { handleMessageSamantha } from "./bot_samantha";
+import { handleMessageMaya } from "./bot_maya";
+import { handleMessageJournal } from "./bot_journal";
+
 
 // Mapping from number to last conversation id
 const conversations = {};
 
 const handleMessageGPT = async (message: Message, prompt: string) => {
+	cli.print(`[Log] Msg recived ${message.from} => ${message.to}`);
 	try {
 		// Get last conversation
-		const lastConversationId = conversations[message.from];
+		if(message.to == config.waSamanthaNumber){
+			handleMessageSamantha(message, prompt);
+		}
+		else if(message.to == config.waMayaNumber){
+			handleMessageMaya(message, prompt);
+		}
+		else if(message.to == config.waJournalNumber){
+			handleMessageJournal(message, prompt);
+		}
+		
 
-		cli.print(`[GPT] Received prompt from ${message.from}: ${prompt}`);
-
-
-		const start = Date.now();
-
-		const end = Date.now() - start;
-		// const response = `[GPT] Msg recieved ${message.from}: ${prompt}`
-		// const response = await axios.post('http://0.0.0.0:8000/api/chat/chat', {
-		// 	"message": prompt,
-		// 	"user_id": message.from
-		// })
-
-		const response = await axios.post('https://api.mamaguru.co/api/chat/chat', {
-			"message": prompt,
-			"user_id": message.from
-		})
-
-		cli.print(`[GPT] Answer to ${message.from}: ${response.data.msg}  | OpenAI request took ${end}ms)`);
-
-		message.reply(response.data.msg);
 	} catch (error: any) {
 		console.error("An error occured", error);
 		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
@@ -53,13 +47,8 @@ const handleVoiceMessageGPT = async (message: Message, prompt: string) => {
 		const start = Date.now();
 
 		const end = Date.now() - start;
-		// const response = `[GPT] Msg recieved ${message.from}: ${prompt}`
-		// const response = await axios.post('http://0.0.0.0:8000/api/journal/chat', {
-		// 	"message": prompt,
-		// 	"user_id": message.from
-		// })
 
-		const response = await axios.post('https://api.mamaguru.co/api/journal/chat', {
+		const response = await axios.post(config.apiServerUrl+'api/journal/chat', {
 			"message": prompt,
 			"user_id": message.from
 		})

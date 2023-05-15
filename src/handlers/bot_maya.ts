@@ -10,7 +10,7 @@ import axios from "axios";
 // Mapping from number to last conversation id
 const conversations = {};
 
-const handleMessageGPT = async (message: Message, prompt: string) => {
+const handleMessageMaya = async (message: Message, prompt: string) => {
 	try {
 		// Get last conversation
 		const lastConversationId = conversations[message.from];
@@ -21,13 +21,8 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 		const start = Date.now();
 
 		const end = Date.now() - start;
-		// const response = `[GPT] Msg recieved ${message.from}: ${prompt}`
-		// const response = await axios.post('http://0.0.0.0:8000/api/chat/chat', {
-		// 	"message": prompt,
-		// 	"user_id": message.from
-		// })
 
-		const response = await axios.post('https://api.mamaguru.co/api/chat/chat', {
+		const response = await axios.post(config.apiServerUrl+'api/maya/chat', {
 			"message": prompt,
 			"user_id": message.from
 		})
@@ -42,7 +37,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 };
 
 
-const handleVoiceMessageGPT = async (message: Message, prompt: string) => {
+const handleVoiceMessageMaya = async (message: Message, prompt: string) => {
 	try {
 		// Get last conversation
 		const lastConversationId = conversations[message.from];
@@ -53,13 +48,8 @@ const handleVoiceMessageGPT = async (message: Message, prompt: string) => {
 		const start = Date.now();
 
 		const end = Date.now() - start;
-		// const response = `[GPT] Msg recieved ${message.from}: ${prompt}`
-		// const response = await axios.post('http://0.0.0.0:8000/api/journal/chat', {
-		// 	"message": prompt,
-		// 	"user_id": message.from
-		// })
 
-		const response = await axios.post('https://api.mamaguru.co/api/journal/chat', {
+		const response = await axios.post(config.apiServerUrl+'api/maya/voice', {
 			"message": prompt,
 			"user_id": message.from
 		})
@@ -68,13 +58,13 @@ const handleVoiceMessageGPT = async (message: Message, prompt: string) => {
 
 		message.reply(response.data.msg);
 	} catch (error: any) {
-		console.error("An error occured", error);
+		console.error("Maya An error occured", error);
 		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
 	}
 };
 
 
-const handleDeleteConversation = async (message: Message) => {
+const handleDeleteConversationMaya = async (message: Message) => {
 	// Delete conversation
 	delete conversations[message.from];
 
@@ -83,4 +73,4 @@ const handleDeleteConversation = async (message: Message) => {
 };
 
 
-export { handleMessageGPT, handleDeleteConversation };
+export { handleMessageMaya, handleVoiceMessageMaya, handleDeleteConversationMaya };
