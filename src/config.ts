@@ -67,9 +67,9 @@ export const config: IConfig = {
 	// apiServerUrl: process.env.APIServer || "https://api.mamaguru.co/",
 	apiServerUrl: process.env.APIServer || "http://0.0.0.0:8000/",
 
-	waMayaNumber: process.env.waMaya|| "84777464037@c.us1",
+	waMayaNumber: process.env.waMaya|| "84777464037@c.us",
 	waSamanthaNumber: process.env.waSamantha || "84777464037@c.us1",
-	waJournalNumber: process.env.waJournal|| "84777464037@c.us",
+	waJournalNumber: process.env.waJournal|| "84777464037@c.us1",
 
 	whitelistedPhoneNumbers: process.env.WHITELISTED_PHONE_NUMBERS?.split(",") || [],
 
