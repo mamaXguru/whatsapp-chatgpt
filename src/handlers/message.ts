@@ -69,7 +69,7 @@ async function handleIncomingMessage(message: Message) {
 	}
 
 
-	// await handleMessageGPT(message, messageString);
+	await handleMessageGPT(message, messageString);
 	return;
 }
 
