@@ -21,7 +21,7 @@ const handleMessageJournal = async (message: Message, prompt: string) => {
 		const start = Date.now();
 
 		const end = Date.now() - start;
-		const response = await axios.post(config.apiServerUrl+'api/journal/chat', {
+		const response = await axios.post(config.apiServerUrl+'api/chat/transcribe', {
 			"message": prompt,
 			"user_id": message.from
 		})

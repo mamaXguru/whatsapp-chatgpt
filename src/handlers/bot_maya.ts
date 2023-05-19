@@ -49,7 +49,7 @@ const handleVoiceMessageMaya = async (message: Message, prompt: string) => {
 
 		const end = Date.now() - start;
 
-		const response = await axios.post(config.apiServerUrl+'api/maya/voice', {
+		const response = await axios.post(config.apiServerUrl+'api/chat/transcribe', {
 			"message": prompt,
 			"user_id": message.from
 		})
