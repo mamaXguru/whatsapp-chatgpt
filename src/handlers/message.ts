@@ -49,22 +49,22 @@ async function handleIncomingMessage(message: Message) {
 
 	// Transcribe audio
 	if (message.hasMedia) {
-		const media = await message.downloadMedia();
+		// const media = await message.downloadMedia();
 
-		// Convert media to base64 string
-		const mediaBuffer = Buffer.from(media.data, "base64");
-		let res;
-		res = await transcribeRequest(new Blob([mediaBuffer]));
-		const { text: transcribedText } = res;
-		// Log transcription
-		cli.print(`[Transcription] Transcription response: ${transcribedText}`);
+		// // Convert media to base64 string
+		// const mediaBuffer = Buffer.from(media.data, "base64");
+		// let res;
+		// res = await transcribeRequest(new Blob([mediaBuffer]));
+		// const { text: transcribedText } = res;
+		// // Log transcription
+		// cli.print(`[Transcription] Transcription response: ${transcribedText}`);
 
 		// Reply with transcription
-		const reply = `You said: ${transcribedText}`;
+		const reply = `Sorry, Audio has been disabled`;
 		message.reply(reply);
 
 		// Handle message GPT
-		await handleMessageGPT(message, transcribedText);
+		// await handleMessageGPT(message, transcribedText);
 		return;
 	}
 
