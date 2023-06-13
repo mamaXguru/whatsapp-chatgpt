@@ -24,14 +24,14 @@ const handleMessageMaya = async (message: Message, prompt: string) => {
 
 		const start = Date.now();
 
-		const end = Date.now() - start;
+		
 
 		const response = await axios.post(config.apiServerUrl+'api/maya/chat', {
 			"message": prompt,
 			"user_id": message.from
 		})
 		await delay(2000);
-
+		const end = Date.now() - start;
 		cli.print(`[GPT] Answer to ${message.from}: ${response.data.msg}  | OpenAI request took ${end}ms)`);
 
 		message.reply(response.data.msg);
