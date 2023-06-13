@@ -10,6 +10,10 @@ import axios from "axios";
 // Mapping from number to last conversation id
 const conversations = {};
 
+function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
+
 const handleMessageMaya = async (message: Message, prompt: string) => {
 	try {
 		// Get last conversation
@@ -26,6 +30,7 @@ const handleMessageMaya = async (message: Message, prompt: string) => {
 			"message": prompt,
 			"user_id": message.from
 		})
+		await delay(2000);
 
 		cli.print(`[GPT] Answer to ${message.from}: ${response.data.msg}  | OpenAI request took ${end}ms)`);
 
