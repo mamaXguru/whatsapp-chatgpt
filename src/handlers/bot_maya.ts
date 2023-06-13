@@ -30,7 +30,7 @@ const handleMessageMaya = async (message: Message, prompt: string) => {
 			"message": prompt,
 			"user_id": message.from
 		})
-		await delay(5000);
+		const temp_delay = await delay(10000);
 		const end = Date.now() - start;
 		cli.print(`[GPT] Answer to ${message.from}: ${response.data.msg}  | OpenAI request took ${end}ms)`);
 
