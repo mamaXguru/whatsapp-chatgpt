@@ -33,7 +33,7 @@ const handleMessageMaya = async (message: Message, prompt: string) => {
 	} catch (error: any) {
 		console.error("An error occured", error);
 		message.reply("Maaf atas masalah ini, kami masih dalam versi beta. Kirimi saya '/delete' tanpa \
-		tanda kutip untuk memulai kembali percakapan ini. \nSorry for the trouble, we are still in beta. \
+		tanda kutip untuk memulai kembali percakapan ini. \n\nSorry for the trouble, we are still in beta. \
 		Send me '/delete' without the quotes to restart this conversation.");
 	}
 };
