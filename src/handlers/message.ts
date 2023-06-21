@@ -30,7 +30,7 @@ async function handleIncomingMessage(message: Message) {
 
 		// Ignore messages that are sent before the bot is started
 		if (messageTimestamp < botReadyTimestamp) {
-			cli.print("Ignoring old message: " + messageString);
+			cli.print("Old message: " + messageString);
 			await handleMessageGPT(message, messageString);
 			return;
 		}
