@@ -36,9 +36,24 @@ const handleMessageMaya = async (message: Message, prompt: string) => {
 
 		message.reply(response.data.msg);
 	} catch (error: any) {
-		console.error("An error occured", error);
-		message.reply("Maaf atas masalah ini, kami masih dalam versi beta. Kirimi saya '/delete' tanpa tanda kutip untuk memulai kembali percakapan ini.\n \
-		Sorry for the trouble, we are still in beta. Send me '/delete' without the quotes to restart this conversation.");
+		try{
+			const delete_response = await axios.post(config.apiServerUrl+'api/maya/chat', {
+				"message": "/delete",
+				"user_id": message.from
+			})
+
+			const response = await axios.post(config.apiServerUrl+'api/maya/chat', {
+				// make message as dollar sign followed by prompt
+				"message": "$"+prompt,
+				"user_id": message.from
+			})
+			message.reply(response.data.msg);
+		}
+		catch (error: any) {
+			console.error("An error occured", error);
+			message.reply("Maaf atas masalah ini, kami masih dalam versi beta. Kirimi saya '/delete' tanpa tanda kutip untuk memulai kembali percakapan ini.\n \
+			Sorry for the trouble, we are still in beta. Send me '/delete' without the quotes to restart this conversation.");
+		}
 	}
 };
 
