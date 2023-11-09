@@ -2,30 +2,28 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { randomUUID } from "crypto";
-import { ChatGPT } from "chatgpt-official";
-import ffmpeg from "fluent-ffmpeg";
+import { ChatGPTAPI } from "chatgpt";
 import { Configuration, OpenAIApi } from "openai";
+
+import ffmpeg from "fluent-ffmpeg";
 import { blobFromSync, File } from "fetch-blob/from.js";
 import config from "../config";
 import { getConfig } from "../handlers/ai-config";
 
-// CLI
-import * as cli from "../cli/ui";
-
-export let chatgpt: ChatGPT;
+export let chatgpt: ChatGPTAPI;
 
 // OpenAI Client (DALL-E)
 export let openai: OpenAIApi;
 
 export function initOpenAI() {
-	chatgpt = new ChatGPT(getConfig("gpt", "apiKey"), {
-		temperature: 0.7, // OpenAI parameter
-		max_tokens: getConfig("gpt", "maxModelTokens"), // OpenAI parameter [Max response size by tokens]
-		top_p: 0.9, // OpenAI parameter
-		frequency_penalty: 0, // OpenAI parameter
-		presence_penalty: 0, // OpenAI parameter
-		// instructions: ``,
-		model: config.openAIModel // OpenAI model
+	chatgpt = new ChatGPTAPI({
+		apiKey: getConfig("gpt", "apiKey"),
+		completionParams: {
+			model: config.openAIModel,
+			temperature: 0.7,
+			top_p: 0.9,
+			max_tokens: getConfig("gpt", "maxModelTokens")
+		}
 	});
 
 	openai = new OpenAIApi(
@@ -43,14 +41,10 @@ export async function transcribeOpenAI(audioBuffer: Buffer): Promise<{ text: str
 	const oggPath = path.join(tempdir, randomUUID() + ".ogg");
 	const wavFilename = randomUUID() + ".wav";
 	const wavPath = path.join(tempdir, wavFilename);
-	cli.print(`Writing file  ${tempdir} ${wavFilename}`);
-
 	fs.writeFileSync(oggPath, audioBuffer);
-	cli.print(`Wrote file  ${tempdir} ${wavFilename}`);
 	try {
 		await convertOggToWav(oggPath, wavPath);
 	} catch (e) {
-		cli.print(`error  ${e}`);
 		fs.unlinkSync(oggPath);
 		return {
 			text: "",
@@ -59,7 +53,6 @@ export async function transcribeOpenAI(audioBuffer: Buffer): Promise<{ text: str
 	}
 
 	// FormData
-	cli.print(`Form data starts`);
 	const formData = new FormData();
 	formData.append("file", new File([blobFromSync(wavPath)], wavFilename, { type: "audio/wav" }));
 	formData.append("model", "whisper-1");
@@ -80,7 +73,6 @@ export async function transcribeOpenAI(audioBuffer: Buffer): Promise<{ text: str
 
 	let response;
 	try {
-		cli.print(`Requesting ${url}`);
 		response = await fetch(url, options);
 	} catch (e) {
 		console.error(e);

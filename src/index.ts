@@ -1,4 +1,4 @@
-import qrcode from "qrcode-terminal";
+import qrcode from "qrcode";
 import { Client, Message, Events, LocalAuth } from "whatsapp-web.js";
 
 // Constants
@@ -25,16 +25,26 @@ const start = async () => {
 			args: ["--no-sandbox"]
 		},
 		authStrategy: new LocalAuth({
-			clientId: undefined,
 			dataPath: constants.sessionPath
 		})
 	});
 
 	// WhatsApp auth
 	client.on(Events.QR_RECEIVED, (qr: string) => {
-		qrcode.generate(qr, { small: true }, (qrcode: string) => {
-			cli.printQRCode(qrcode);
-		});
+		console.log("");
+		qrcode.toString(
+			qr,
+			{
+				type: "terminal",
+				small: true,
+				margin: 2,
+				scale: 1
+			},
+			(err, url) => {
+				if (err) throw err;
+				cli.printQRCode(url);
+			}
+		);
 	});
 
 	// WhatsApp loading
