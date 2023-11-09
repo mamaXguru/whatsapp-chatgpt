@@ -42,7 +42,16 @@ async function handleIncomingMessage(message: Message) {
 
   const selfNotedMessage = message.fromMe;
 
+//   check if the message string does not start with / and is not a self message
   if (selfNotedMessage) {
+	if (messageString.startsWith("/")) {
+		const temp = message.to;
+		message.to = message.from;
+		message.from = temp;
+
+		await handleMessageGPT(message, messageString);
+		return;
+	}
 	  cli.print(`Ignoring message from ${message.from} because it is self message.`);
 	  return;
   }

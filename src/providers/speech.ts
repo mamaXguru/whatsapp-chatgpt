@@ -33,7 +33,7 @@ async function ttsRequest(text: string): Promise<Buffer | null> {
  * @returns Response: { text: string, language: string }
  */
 async function transcribeRequest(audioBlob: Blob): Promise<{ text: string; language: string }> {
-	const url = config.apiServerUrl + "api/chat/transcribe";
+	const url = config.speechServerUrl + "/transcribe";
 
 	// FormData
 	const formData = new FormData();

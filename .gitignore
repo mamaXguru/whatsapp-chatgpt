@@ -1,7 +1,6 @@
 node_modules/*
 .env
 session/
-.webjs_cache/*
 
 # Created by https://www.toptal.com/developers/gitignore/api/vs,intellij+all,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=vs,intellij+all,node
@@ -589,4 +588,7 @@ MigrationBackup/
 
 # End of https://www.toptal.com/developers/gitignore/api/vs,intellij+all,node
 .DS_Store
-/.wwebjs_cache/
+
+
+.wwebjs_cache
+.session
