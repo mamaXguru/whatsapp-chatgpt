@@ -69,7 +69,7 @@ export const config: IConfig = {
 
 	waMayaNumber: process.env.waMaya|| "6282220474296@c.us",
 	waSamanthaNumber: process.env.waSamantha || "84777464037@c.us",
-	waJournalNumber: process.env.waJournal|| "84777464037@c.us1",
+	waJournalNumber: process.env.waJournal|| "918107892921@c.us",
 
 	whitelistedPhoneNumbers: process.env.WHITELISTED_PHONE_NUMBERS?.split(",") || [],
 
